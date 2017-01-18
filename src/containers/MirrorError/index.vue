@@ -5,7 +5,9 @@
       <span title="flip">{{flipTimes}}</span> |
       <span class="times-failure" title="failure">{{failTimes}}</span>
     </h1>
-    <h4>{{elapse}}</h4>
+    <transition name="fade">
+      <h4>{{elapse}}</h4>
+    </transition>
     <div class="operation">
       <button class="btn-bg" @click="flip">Flip</button>
     </div>
@@ -22,14 +24,13 @@
 
 <script>
   import Vue from 'vue'
-  import Tile from './Tile.vue'
-  import {generateBitMatrix} from 'helpers/matrix'
-  import {random} from 'helpers/rnd'
+  import Tile from 'components/Tile.vue'
+  import { generateBitMatrix } from 'helpers/matrix'
+  import random from 'helpers/rnd'
 
   const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
   export default {
-    name: 'hello',
     components: { Tile },
     data () {
       return {
@@ -62,7 +63,7 @@
         this.flipped = false
         const { row, col, factor } = this
         this.board = generateBitMatrix({ row, col, factor })
-        this.mutatedPoints = [[random(0, row), random(0, col)]]
+        this.mutatedPoints = [[random.integer(0, row - 1), random.integer(0, col - 1)]]
       },
       async flip () {
         this.flipTimes += 1
@@ -113,7 +114,8 @@
     display inline-block
     background-color aliceblue
     margin-right 25px
-    transition transform 1s
+    transform-origin right
+    transition transform 1s, background-color 0.2s, border .5s
 
   .flipped
     transform rotateY(180deg)

@@ -1,3 +1,3 @@
-export function random (min, max) {
-  return Math.floor((Math.random() * (max - 1))) + min
-}
+import random from 'random-js'
+
+export default random()
